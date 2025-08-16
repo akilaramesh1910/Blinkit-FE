@@ -7,12 +7,15 @@ import { handleAddCartItem } from "../store/cartSlice";
 import PriceWithDiscount from "../utils/PriceWithDiscount";
 import { setOrder } from "../store/orderSlice";
 import toast from "react-hot-toast";
+import { ErrorBoundary } from "react-error-boundary";
+import { handleAddAddress } from "../store/addressSlice"
 
 export const GlobalContext = createContext(null);
 
 export const useGlobalContext = () => useContext(GlobalContext);
 
-const globalProvider = ({ children }) => {
+const GlobalProvider = (props) => {
+  const { children } = props || {};
 
   const dispatch = useDispatch()
   const [totalPrice, setTotalPrice] = useState(0)
@@ -84,18 +87,18 @@ const globalProvider = ({ children }) => {
 
   useEffect(() => {
     const quantity = cartItem.reduce((prev, curr) => {
-      return prev + curr.quantity
+      return prev + Number(curr.quantity || 0)
     }, 0)
     setTotalQty(quantity)
 
     const price = cartItem.reduce((prev, curr) => {
-      const priceAfterDiscount = PriceWithDiscount(curr?.productId?.price, curr?.productId?.discount)
-      return prev + (priceAfterDiscount * curr.quantity)
+      const priceAfterDiscount = PriceWithDiscount(Number(curr?.productId?.price || 0), Number(curr?.productId?.discount || 0))
+      return prev + (priceAfterDiscount * Number(curr.quantity || 0))
     }, 0)
     setTotalPrice(price)
 
     const priceWithoutDiscount = cartItem.reduce((prev, curr) => {
-      return prev + (curr?.productId?.price * curr.quantity)
+      return prev + (Number(curr?.productId?.price || 0) * Number(curr.quantity || 0))
     }, 0)
     setPriceWithoutDiscount(priceWithoutDiscount)
     
@@ -140,25 +143,26 @@ const globalProvider = ({ children }) => {
 
   useEffect(() => {
     fetchCartItem()
-    handleLogout()
     fetchAddress()
     fetchOrder()
   }, [user])
 
   return (
-    <GlobalContext.Provider value={{
-        fetchCartItem,
-        updateCartItem,
-        deleteCartItem,
-        fetchAddress,
-        fetchOrder,
-        totalPrice,
-        totalQty,
-        priceWithoutDiscount
-    }}>
-        {children}
-    </GlobalContext.Provider>
+    <ErrorBoundary FallbackComponent={() => <div>Something went wrong</div>}>
+      <GlobalContext.Provider value={{
+          fetchCartItem,
+          updateCartItem,
+          deleteCartItem,
+          fetchAddress,
+          fetchOrder,
+          totalPrice,
+          totalQty,
+          priceWithoutDiscount
+      }}>
+          {children}
+      </GlobalContext.Provider>
+    </ErrorBoundary>
   )
 };
 
-export default globalProvider
+export default GlobalProvider

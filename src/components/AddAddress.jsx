@@ -5,7 +5,7 @@ import Axios from '../utils/Axios'
 import SummaryApi from '../common/SummaryApi'
 import toast from 'react-hot-toast'
 import { IoClose } from 'react-icons/io5'
-import useGlobalContext from '../provider/GlobalProvider'
+import { useGlobalContext } from '../provider/GlobalProvider'
 
 const AddAddress = ({close}) => {
 
@@ -17,12 +17,12 @@ const AddAddress = ({close}) => {
         const response = await Axios({
             ...SummaryApi.addAddress,
             data: {
-                address_line: data.addressLine,
+                address_line: data.address_line,
                 city: data.city,
                 state: data.state,
                 pincode: data.pincode,
                 country: data.country,
-                mobile: data.mobile
+                mobile: data.mobileNo
             }
         })
 
@@ -33,7 +33,7 @@ const AddAddress = ({close}) => {
             if(close) {
                 close()
                 reset()
-                fetchAddress()
+                await fetchAddress()
             }
         }
 

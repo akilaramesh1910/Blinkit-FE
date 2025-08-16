@@ -12,9 +12,9 @@ import AddToCartButton from './AddToCartButton'
 
 const CardProduct = ({ data }) => {
   const url = `/product/${ValidateURL(data.name)}-${data._id}`
-  
+
   return (
-    <Link url={url} className='border py-2 lg:p-4 grid gap-1 lg:gap-3 min-w-36 lg:min-w-52 rounded bg-white'>
+    <Link to={url} className='border py-2 lg:p-4 grid gap-1 lg:gap-3 min-w-36 lg:min-w-52 rounded bg-white cursor-pointer'>
         <div className='min-h-20 w-full max-h-24 lg:max-h-32 rounded overflow-hidden'>
             <img 
                 src={data?.image[0]}

@@ -7,7 +7,7 @@ const NoData = () => {
         <img 
             src={noData} 
             alt="No Data" 
-            className='w-36'
+            className='w-64 h-64 object-contain'
         />
         <p className='text-neutral-500'>No Data</p>
     </div>

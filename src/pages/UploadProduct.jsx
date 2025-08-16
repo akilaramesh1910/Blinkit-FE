@@ -142,9 +142,9 @@ const UploadProduct = () => {
     }
   }
 
-  useEffect(() => {
-    SuccessAlert("Upload Successfully")
-  }, [])
+  // useEffect(() => {
+  //   SuccessAlert("Upload Successfully")
+  // }, [])
 
   return (
     <section>
@@ -254,7 +254,7 @@ const UploadProduct = () => {
                 {
                   allCategory.map((category, index) => {
                     return (
-                      <option value={category._id}>{category.name}</option>
+                      <option key={index + "upload_product"} value={category._id}>{category.name}</option>
                     )
                   })
                 }
@@ -310,7 +310,7 @@ const UploadProduct = () => {
                 {
                   allSubCategory.map((category, index) => {
                     return (
-                      <option value={category._id}>{category.name}</option>
+                      <option key={index + "upload_product_subCategory_item"} value={category._id}>{category.name}</option>
                     )
                   })
                 }

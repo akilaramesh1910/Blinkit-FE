@@ -5,12 +5,13 @@ import AxiosToastError from "../utils/AxiosToastError";
 import { useGlobalContext } from "../provider/GlobalProvider";
 import { useSelector } from "react-redux";
 import {FaMinus, FaPlus} from "react-icons/fa"
+import SummaryApi from "../common/SummaryApi";
 
 const AddToCartButton = ({data}) => {
 
     const { fetchCartItem, updateCartItem, deleteCartItem } = useGlobalContext()
     const [loading, setLoading] = useState (false)
-    const cartItem = useSelector(state => state.product.cartItem)
+    const cartItem = useSelector(state => state.cartItem.cart)
     const [isAvailable, setIsAvailable] = useState(true)
     const [qty, setQty] = useState(0)
     const [cartItemDetails, setCartItemDetails] = useState()
@@ -39,18 +40,19 @@ const AddToCartButton = ({data}) => {
             }
     
         } catch (error) {
-            <AxiosToastError />
+            console.log("error", error)
+            AxiosToastError(error)
         } finally {
             setLoading(false)
         }
     }
 
     useEffect(() => {
-        const checkItem = cartItem.some(item => item.productId._id === data._id)
+        const checkItem = cartItem?.some(item => item.productId._id === data._id)
         setIsAvailable(checkItem)
 
-        const qtyCartItem = cartItem.find(item => item.productId._id === data._id)
-        setQty(qtyCartItem?.qty)
+        const qtyCartItem = cartItem?.find(item => item.productId._id === data._id)
+        setQty(qtyCartItem?.quantity)
         setCartItemDetails(qtyCartItem)
     }, [cartItem])
 
@@ -93,7 +95,7 @@ const AddToCartButton = ({data}) => {
         ) : (
             <button
                 onClick={handleAddToCart}
-                className="bg-green-600 hover:bg-green-700 text-white px-2 lg:px-4 py-1 rounded"
+                className="bg-green-600 hover:bg-green-700 text-white px-2 lg:px-4 py-1 rounded cursor-pointer"
             >
                 Add
             </button>

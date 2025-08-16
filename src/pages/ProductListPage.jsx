@@ -7,6 +7,7 @@ import Loading from '../components/Loading'
 import CardProduct from '../components/CardProduct'
 import AxiosToastError from '../utils/AxiosToastError'
 import { useSelector } from 'react-redux'
+import ValidateURL from '../utils/ValidateURL'
 
 const ProductListPage = () => {
   const params = useParams()
@@ -21,13 +22,18 @@ const ProductListPage = () => {
   const subCategory = params?.subCategory?.split("-")
   const subCategoryName = subCategory?.slice(0, subCategory?.length - 1)?.join(" ")
   const categoryId = params.category.split("-").slice(-1)[0]
-  const subCategoryId = params.subCategory.split("-").slice(-1)[0]
+  const subCategoryId = params?.subCategory?.split("-").slice(-1)[0]
 
-  const fetchProductData = async (req, res) => {
-
+  const fetchProductData = async () => {
 
     try {
       setLoading(true)
+
+      if (!categoryId || !subCategoryId || subCategoryId === 'undefined' || params?.subCategory === 'undefined-undefined') {
+        setLoading(false)
+        return
+      }
+
       const response = await Axios({
         ...SummaryApi.getProductByCategoryAndSubCategory,
         data: {
@@ -79,7 +85,7 @@ const ProductListPage = () => {
             displaySubCategory.map((sub, index) => {
               const url = `/${ValidateURL(sub?.category[0]?.name)}-${sub?.category[0]?._id}/${ValidateURL(sub.name)}-${sub._id}`
               return (
-                <Link to={url} className={`w-full p-2 bg-white lg:flex items-center lg:w-full lg:h-16 box-border lg:gap-4 border-b hover:bg-green-100 cursor-pointer ${subCategoryId === sub._id ? "border-green-500" : ""}`}>
+                <Link to={url} key={sub._id+"SubCategory"+index} className={`w-full p-2 bg-white lg:flex items-center lg:w-full lg:h-16 box-border lg:gap-4 border-b hover:bg-green-100 cursor-pointer ${subCategoryId === sub._id ? "border-green-500" : ""}`}>
                   <div className='w-fit max-w-28 mx-auto lg:mx-0 bg-white rounded box-border'>
                     <img 
                       src={sub.image} 

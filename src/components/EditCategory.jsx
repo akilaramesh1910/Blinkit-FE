@@ -36,8 +36,7 @@ export const EditCategory = ({close, fetchCategory, data: categoryData}) => {
             image: ImageResponse.data.url
         }
     })
-
-    console.log(upload)    
+ 
   }
 
   const handleSubmit = async (e) => {

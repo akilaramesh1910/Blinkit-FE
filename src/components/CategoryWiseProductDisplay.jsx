@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import { data, Link } from 'react-router-dom'
 import AxiosToastError from '../utils/AxiosToastError'
 import Axios from '../utils/Axios'
@@ -7,9 +7,10 @@ import CardLoading from './CardLoading'
 import {FaAngleLeft, FaAngleRight} from 'react-icons/fa6'
 import { useSelector } from 'react-redux'
 import ValidateURL from '../utils/ValidateURL'
+import CardProduct from './CardProduct'
 
 const CategoryWiseProductDisplay = ({ id, name }) => {
-  const [date, setDate] = useState([])
+  const [data, setData] = useState([])
   const [loading, setLoading] = useState(false)
   const containerRef = useRef() 
   const subCategory = useSelector(state => state.product.allSubCategory)
@@ -27,10 +28,11 @@ const CategoryWiseProductDisplay = ({ id, name }) => {
       const {data: responseData} = response
 
       if(responseData.success) {
-        setDate(responseData.data)
+        setData(responseData.data)
       }
 
     } catch (error) {
+      console.log(error)
       AxiosToastError(error)
     }finally {
       setLoading(false)

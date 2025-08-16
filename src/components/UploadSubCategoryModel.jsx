@@ -6,7 +6,6 @@ import Axios from '../utils/Axios'
 import SummaryApi from '../common/SummaryApi'
 import toast from 'react-hot-toast'
 import AxiosToastError from '../utils/AxiosToastError'
-import SuccessAlert from '../utils/SuccessAlert'
 
 const UploadSubCategoryModel = ({close, fetchData}) => {
 
@@ -16,9 +15,9 @@ const UploadSubCategoryModel = ({close, fetchData}) => {
     category: []
   })
 
-  const allCategory = useSelector(state => state.product.allCategory)
+  const [loading, setLoading] = useState(false)
 
-  console.log("allCategory", allCategory)
+  const allCategory = useSelector(state => state.product.allCategory)
 
   const handleChange = (e) => {
     const { name, value } = e.target
@@ -38,8 +37,11 @@ const UploadSubCategoryModel = ({close, fetchData}) => {
     }
 
     const response = await UploadImage(file)
+    setLoading(true)
 
     const {data: ImageResponse} = response;
+
+    setLoading(false)
 
     setSubCategoryData((prev) => {
         return {
@@ -121,10 +123,15 @@ const UploadSubCategoryModel = ({close, fetchData}) => {
                             }
                         </div>
                         <label htmlFor="uploadSubCategory">
-                            <div className='px-4 py-1 border border-primary-100 text-primary-200 hover:bg-primary-200 hover:text-white rounded cursor-pointer'>
-                                Upload Image
+                        <div
+                            className={`${!subCategoryData.name ? "bg-gray-300" : "border-primary-200  hover: bg-primary-100"} px-4 py-2 rounded cursor-pointer border font-medium`}
+                            >
+                                {
+                                    loading ? "Uploading..." : "Upload Image"
+                                }
                             </div>
                             <input 
+                                disabled={!subCategoryData.name}
                                 id="uploadSubCategory" 
                                 type="file" 
                                 className='hidden'
@@ -144,7 +151,7 @@ const UploadSubCategoryModel = ({close, fetchData}) => {
                             <option value="">Select Category</option>
                         </select> */}
 
-                        <div className='flex flex-wrap gap-2'>
+                        {/* <div className='flex flex-wrap gap-2'>
                             {
                                 subCategoryData.map((cat, index) => {
                                     return(
@@ -158,7 +165,7 @@ const UploadSubCategoryModel = ({close, fetchData}) => {
                                     )
                                 })
                             }
-                        </div>
+                        </div> */}
 
 
                         <select
@@ -186,9 +193,12 @@ const UploadSubCategoryModel = ({close, fetchData}) => {
                         </select>
                     </div>
                 </div>
-
                 <button
-                    className={`px-4 py-2 border ${subCategoryData?.name && subCategoryData?.image && subCategoryData?.category[0 ? "bg-primary-200 hover:bg-primary-100" : "bg-gray-200"]} rounded font-semibold` }
+                    className={`px-4 py-2 border rounded
+                        ${subCategoryData?.name && subCategoryData?.image && subCategoryData?.category[0] ? "bg-primary-200 hover:bg-primary-100" : "bg-gray-200"}    
+                        font-semibold
+                    `}
+                    disabled={!subCategoryData?.name || !subCategoryData?.image || !subCategoryData?.category[0]}
                 >
                     Submit
                 </button>

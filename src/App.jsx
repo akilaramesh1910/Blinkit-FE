@@ -7,7 +7,7 @@ import fetchUserDetails from './utils/fetchUserDetails'
 import { useEffect } from 'react'
 import { setUserDetails } from './store/userSlice'
 import { useDispatch } from 'react-redux'
-import { setAllCategory, setAllSubCategory } from './store/productSlice'
+import { setAllCategory, setAllSubCategory, setLoadingCategory } from './store/productSlice'
 import Axios from './utils/Axios'
 import SummaryApi from './common/SummaryApi'
 import {handleAddCartItem} from './store/cartSlice'
@@ -70,17 +70,19 @@ function App() {
 
   return (
     <GlobalProvider>
-      <Header />
+      <>
+        <Header />
         <main className='min-h-[80vh]'>
           <Outlet />
         </main>
-      <Footer />
-      <Toaster />
-      {
-        location.pathname !== "/checkout" && (
-          <CartMobileLink />
-        )
-      }
+        <Footer />
+        <Toaster />
+        {
+          location.pathname !== "/checkout" && (
+            <CartMobileLink />
+          )
+        }
+      </>
     </GlobalProvider>
   )
 }

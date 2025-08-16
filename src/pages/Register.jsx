@@ -96,7 +96,6 @@ const Register = () => {
                     <input 
                         type="email" 
                         id="email"
-                        autoFocus
                         className='bg-blue-50 p-2 border rounded outline-none focus-within:border-primary-200'
                         name='email'
                         placeholder='Enter your email'
@@ -111,7 +110,6 @@ const Register = () => {
                         <input 
                             type={showPassword ? "text" : "password"}
                             id="password"
-                            autoFocus
                             className='w-full outline-none'
                             name='password'
                             placeholder='Enter your password'
@@ -132,7 +130,6 @@ const Register = () => {
                         <input 
                             type= {showConfirmPassword ? "text" : "password"}
                             id="confirmPassword"
-                            autoFocus
                             className='w-full outline-none'
                             // className='w-full bg-blue-50 p-2 border rounded  outline-none focus-within:border-primary-200'
                             name='confirmPassword'

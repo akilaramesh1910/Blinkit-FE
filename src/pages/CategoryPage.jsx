@@ -88,7 +88,9 @@ const CategoryPage = () => {
 
         {
           !categoryData[0] && !loading && (
+          //  <div style={{border:"2px solid red"}} className='flex items-center justify-center h-[calc(100vh-10rem)]'>
             <NoData />
+          //  </div>
           )
         }
 

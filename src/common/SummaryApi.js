@@ -1,4 +1,4 @@
-export const baseURL = "http://localhost:8000"
+export const baseURL = "https://blinkit-be-1.onrender.com"
 
 const SummaryApi =  {
     register: {
@@ -122,7 +122,7 @@ const SummaryApi =  {
        method: 'put'
     },
     deleteCartItem: {
-       url: '/api/cart/update-qty',
+       url: '/api/cart/delete-cart-item',
        method: 'delete'
     },
     addAddress: {

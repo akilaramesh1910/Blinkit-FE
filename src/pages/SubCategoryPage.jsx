@@ -125,7 +125,7 @@ const SubCategoryPage = () => {
   const handleDeleteSubCategory = async () => {
     try {
       const response = await Axios({
-        ...SummaryApi.deleteCategory,
+        ...SummaryApi.deleteSubCategory,
         data: deleteSubCategory
       })
 
@@ -166,10 +166,10 @@ const SubCategoryPage = () => {
         )
       }
 
-      <ViewImage 
+      {/* <ViewImage 
         url={imageURL}
         close={() => setImageURL("") }
-      />
+      /> */}
 
       {
         openEditSubCategory && (

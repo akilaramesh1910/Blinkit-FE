@@ -23,8 +23,6 @@ const Header = () => {
   // const [totalQty, setTotalQty] = useState(0)
   const {totalPrice, totalQty} = useGlobalContext()
 
-  console.log(user)
-
   const [openUserMenu, setOpenUserMenu] = useState(false)
   const [openCartMenu, setOpenCartMenu] = useState(false)
 

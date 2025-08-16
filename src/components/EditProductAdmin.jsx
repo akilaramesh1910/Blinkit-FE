@@ -148,9 +148,9 @@ const EditProductAdmin = ({close, data: propsData, fetchProductData}) => {
     }
   };
 
-  useEffect(() => {
-    SuccessAlert("Upload Successfully");
-  }, []);
+  // useEffect(() => {
+  //   SuccessAlert("Upload Successfully");
+  // }, []);
   
   return (
     <section className="fixed top-0 right-0 left-0 bottom-0 bg-black z-50 bg-opacity-70 p-4">
@@ -271,7 +271,7 @@ const EditProductAdmin = ({close, data: propsData, fetchProductData}) => {
                     <option>Select Category</option>
                     {allCategory.map((category, index) => {
                       return (
-                        <option value={category._id}>{category.name}</option>
+                        <option key={ index + "category" } value={category._id}>{category.name}</option>
                       );
                     })}
                   </select>
@@ -322,7 +322,7 @@ const EditProductAdmin = ({close, data: propsData, fetchProductData}) => {
                     </option>
                     {allSubCategory.map((category, index) => {
                       return (
-                        <option value={category._id}>{category.name}</option>
+                        <option key={index + "subCategory_item"} value={category._id}>{category.name}</option>
                       );
                     })}
                   </select>

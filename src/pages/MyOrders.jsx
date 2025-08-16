@@ -7,8 +7,8 @@ const MyOrders = () => {
   const orders = useSelector((state) => state?.orders?.order)
 
   return (
-    <div className='bg-white shadow-xl p-3 font-semibold'>
-      <div>
+    <div>
+      <div className='bg-white shadow-md p-3 font-semibold'>
         <h1>Order</h1>
       </div>
       {
@@ -16,7 +16,7 @@ const MyOrders = () => {
           <NoData />
         )
       }
-      {
+      {/* {
         orders.map((order, index) => {
           return (
             <div key={order._id+"myOrders"+index} className='order rounded p-4'>
@@ -32,7 +32,7 @@ const MyOrders = () => {
             </div>
           )
         })
-      }
+      } */}
     </div>
   )
 }

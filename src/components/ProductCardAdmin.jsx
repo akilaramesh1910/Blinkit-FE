@@ -3,6 +3,8 @@ import EditProductAdmin from './EditProductAdmin'
 import { IoClose } from 'react-icons/io5'
 import AxiosToastError from '../utils/AxiosToastError'
 import toast from 'react-hot-toast'
+import SummaryApi from '../common/SummaryApi'
+import Axios from '../utils/Axios'
 
 const ProductCardAdmin = ({ data, fetchProductData }) => {
   const [editOpen, setEditOpen] = useState(false)

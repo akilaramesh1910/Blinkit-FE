@@ -7,6 +7,8 @@ import EditAddressDetails from "../components/EditAddressDetails";
 import Axios from "../utils/Axios";
 import SummaryApi from "../common/SummaryApi";
 import { useGlobalContext } from "../provider/GlobalProvider";
+import AxiosToastError from "../utils/AxiosToastError";
+import toast from "react-hot-toast";
 
 const Address = () => {
   const addressList = useSelector((state) => state.address.addressList);
@@ -24,10 +26,12 @@ const Address = () => {
         }
       })
 
-      if(response.data.success) {
+      const { data: responseData } = response;
+      
+      if(responseData.success) {
         toast.success("Address removed successfully")
         if(fetchAddress) {
-          fetchAddress()
+          await fetchAddress()
         }
       }
 
@@ -50,7 +54,7 @@ const Address = () => {
       <div className="bg-blue-50 p-2 grid gap-4">
         {addressList.map((address, index) => {
           return (
-              <div className={`border rounded p-3 flex gap-3 bg-white ${!address.status && 'hidden'}`}>
+              <div key={index+"addressList"} className={`border rounded p-3 flex gap-3 bg-white ${!address.status && 'hidden'}`}>
                 <div className="w-full">
                   <p>{address.address_line}</p>
                   <p>{address.city}</p>
@@ -63,10 +67,10 @@ const Address = () => {
                 <div className="grid gap-10">
                   <button 
                     className="bg-green-200 p-1 rounded hover:text-white hover:bg-green-600"
-                    onClick={(
-                      setOpenEdit(true),
+                    onClick={() => {
+                      setOpenEdit(true)
                       setEditData(address)
-                    )}
+                    }}
                   >
                     <MdEdit size={20} />
                   </button>

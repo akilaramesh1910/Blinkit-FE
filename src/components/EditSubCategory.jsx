@@ -17,8 +17,7 @@ const EditSubCategory = ({data, close, fetchData}) => {
   })
 
   const allCategory = useSelector(state => state.product.allCategory)
-
-  console.log("allCategory", allCategory)
+  const [loading, setLoading] = useState(false)
 
   const handleChange = (e) => {
     const { name, value } = e.target
@@ -36,11 +35,13 @@ const EditSubCategory = ({data, close, fetchData}) => {
     if(!file) {
         return;
     }
+    setLoading(true)
 
     const response = await UploadImage(file)
 
     const {data: ImageResponse} = response;
 
+    setLoading(false)
     setSubCategoryData((prev) => {
         return {
             ...prev,
@@ -121,8 +122,12 @@ const EditSubCategory = ({data, close, fetchData}) => {
                             }
                         </div>
                         <label htmlFor="uploadSubCategory">
-                            <div className='px-4 py-1 border border-primary-100 text-primary-200 hover:bg-primary-200 hover:text-white rounded cursor-pointer'>
-                                Upload Image
+                            <div
+                            className={`${!subCategoryData.image ? "bg-gray-300" : "border-primary-200  hover: bg-primary-100"} px-4 py-2 rounded cursor-pointer border font-medium`}
+                            >
+                                {
+                                    loading ? "Uploading..." : "Upload Image"
+                                }
                             </div>
                             <input 
                                 id="uploadSubCategory" 
@@ -137,24 +142,16 @@ const EditSubCategory = ({data, close, fetchData}) => {
                 <div className='grid gap-1'>
                     <label>Select Category</label>
                     <div className='border focus-within:border-primary-200 rounded'>
-                        {/* <label>Sub Category</label>
-                        <select
-                            className='bg-blue-50 border p-3'
-                        >
-                            <option value="">Select Category</option>
-                        </select> */}
-
                         <div className='flex flex-wrap gap-2'>
-                            {
-                                subCategoryData.map((cat, index) => {
+                                {
+                                subCategoryData.category.map((cat,index)=>{
                                     return(
                                         <p key={cat._id+"selectedValue"} className='bg-white shadow-md px-1 m-1 flex items-center gap-2'>
                                             {cat.name}
-                                            <div className='cursor-pointer hover:text-red-600' onClick={() => handleRemoveCategorySelected(cat._id)}>
-                                                <IoClose size={20} />
+                                            <div className='cursor-pointer hover:text-red-600' onClick={()=>handleRemoveCategorySelected(cat._id)}>
+                                                <IoClose size={20}/>
                                             </div>
                                         </p>
-                                        
                                     )
                                 })
                             }
@@ -179,7 +176,7 @@ const EditSubCategory = ({data, close, fetchData}) => {
                             {
                                 allCategory.map((category) => {
                                     return(
-                                        <option value={category._id} key={category._id+"subCategory"}>{category.name}</option>
+                                        <option value={category?._id} key={category?._id+"subCategory"}>{category?.name}</option>
                                     )
                                 })
                             }
@@ -188,7 +185,11 @@ const EditSubCategory = ({data, close, fetchData}) => {
                 </div>
 
                 <button
-                    className={`px-4 py-2 border ${subCategoryData?.name && subCategoryData?.image && subCategoryData?.category[0 ? "bg-primary-200 hover:bg-primary-100" : "bg-gray-200"]} rounded font-semibold` }
+                    className={`px-4 py-2 border rounded
+                        ${subCategoryData?.name && subCategoryData?.image && subCategoryData?.category[0] ? "bg-primary-200 hover:bg-primary-100" : "bg-gray-200"}    
+                        font-semibold
+                    `}
+                    disabled={!subCategoryData?.name || !subCategoryData?.image || !subCategoryData?.category[0]} 
                 >
                     Submit
                 </button>

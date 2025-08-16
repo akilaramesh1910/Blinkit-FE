@@ -10,6 +10,7 @@ const Home = () => {
   const loadingCategory = useSelector(state => state.product.loadingCategory)
   const allCategory = useSelector(state => state.product.allCategory)
   const subCategory = useSelector(state => state.product.allSubCategory)
+
   const navigate = useNavigate()
 
   const handleRedirect = (id, name) => {

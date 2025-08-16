@@ -1,7 +1,7 @@
 import React from 'react'
 import { IoClose } from 'react-icons/io5'
 import { Link, useNavigate } from 'react-router-dom'
-import useGlobalContext from '../provider/GlobalProvider'
+import { useGlobalContext } from '../provider/GlobalProvider'
 import PriceInRupees from '../utils/PriceInRupees'
 import { FaCaretRight } from 'react-icons/fa6'
 import { useSelector } from 'react-redux'

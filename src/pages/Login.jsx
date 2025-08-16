@@ -39,34 +39,26 @@ const Login = () => {
     e.preventDefault();
 
     try {
-        console.log('Attempting login with data:', data);
         const response = await Axios({
             ...SummaryApi.login,
             data: data
         });
 
-        console.log('Login response:', response);
-
         if(response.data.error) {
-            console.error('Login error:', response.data.message);
             toast.error(response.data.message);
             return; // Exit early on error
         }
 
         if(response.data.success) {
             const { accessToken, refreshToken } = response.data.data;
-            console.log('Login successful, tokens received:', { accessToken: !!accessToken, refreshToken: !!refreshToken });
             
             // Store tokens
             localStorage.setItem('accesstoken', accessToken);
             localStorage.setItem('refreshtoken', refreshToken);
 
-            console.log('Fetching user details...');
             const userDetails = await fetchUserDetails();
-            console.log('User details response:', userDetails);
 
             if (userDetails?.data) {
-                console.log('Dispatching user details:', userDetails.data);
                 dispatch(setUserDetails(userDetails.data));
                 
                 // Clear form
@@ -105,7 +97,7 @@ const Login = () => {
                         type="email" 
                         id="email"
                         autoFocus
-                        className='bg-blue-50 p-2 border rounded outline-none focus-within:border-primary-200'
+                        className='bg-blue-50 p-2 border rounded outline-none focus:border-primary-200'
                         name='email'
                         placeholder='Enter your email'
                         value={data.email}
@@ -119,7 +111,6 @@ const Login = () => {
                         <input 
                             type={showPassword ? "text" : "password"}
                             id="password"
-                            autoFocus
                             className='w-full outline-none'
                             name='password'
                             placeholder='Enter your password'

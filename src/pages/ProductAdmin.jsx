@@ -1,10 +1,11 @@
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import SummaryApi from "../common/SummaryApi"
 import AxiosToastError from "../utils/AxiosToastError"
 import Axios from "../utils/Axios"
 import Loading from "../components/Loading"
 import ProductCardAdmin from "../components/ProductCardAdmin"
 import { IoSearchOutline } from "react-icons/io5"
+import NoData from "../components/NoData"
 
 const ProductAdmin = () => {
   const [productData, setProductData] = useState([])
@@ -29,7 +30,7 @@ const ProductAdmin = () => {
 
       if(responseData.success) {
         setProductData(responseData.data)
-        setTotalPageCount(responseData.totalPageCount)
+        setTotalPageCount(responseData.totalNoPage)
       }
 
     } catch (error) {
@@ -93,25 +94,34 @@ const ProductAdmin = () => {
             <Loading />
         )
       }
-      <div className="p-4 bg-blue-50">
-        <div className="min-h-[55vh]">
-            <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-4">
-                {
-                    productData.map((p, index) => {
-                        return(
-                            <ProductCardAdmin key={index} data={p} fetchProductData={fetchProductData}/>
-                        )
-                    })
-                }
+      {
+        !loading && !productData.length && (
+          <NoData />
+        )
+      }
+      {
+        productData.length > 0 && (
+          <div className="p-4 bg-blue-50">
+            <div className="min-h-[55vh]">
+                <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-4">
+                    {
+                        productData.map((p, index) => {
+                            return(
+                                <ProductCardAdmin key={index} data={p} fetchProductData={fetchProductData}/>
+                            )
+                        })
+                    }
+                </div>
             </div>
-        </div>
-        
-        <div className="flex justify-between my-4">
-            <button onClick={handlePrevious} className="px-4 py-1 border rounded border-primary-200 hover:bg-primary-200">Previous</button>
-            <button className="w-full bg-white">{page}/{totalPageCount}</button>
-            <button onClick={handleNext} className="px-4 py-1 border rounded border-primary-200 hover:bg-primary-200">Next</button>
-        </div>
-      </div>
+            
+            <div className="flex justify-between my-4">
+                <button onClick={handlePrevious} className="px-4 py-1 border rounded border-primary-200 hover:bg-primary-200">Previous</button>
+                <button className="w-full bg-white">{page}/{totalPageCount}</button>
+                <button onClick={handleNext} className="px-4 py-1 border rounded border-primary-200 hover:bg-primary-200">Next</button>
+            </div>
+          </div>
+        )
+      }
 
     </section>
   )

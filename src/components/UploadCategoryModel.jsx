@@ -55,10 +55,13 @@ const UploadCategoryModel = ({close, fetchCategory}) => {
     if(!file) {
         return
     }
+    setLoading(true)
 
     const response = await UploadImage(file)
 
     const {data: ImageResponse} = response;
+
+    setLoading(false)
 
     setData((prev) => {
         return {
@@ -66,9 +69,6 @@ const UploadCategoryModel = ({close, fetchCategory}) => {
             image: ImageResponse.data.url
         }
     })
-
-    console.log(upload)
-
   }
 
   return (
@@ -114,7 +114,9 @@ const UploadCategoryModel = ({close, fetchCategory}) => {
                             <div
                             className={`${!data.name ? "bg-gray-300" : "border-primary-200  hover: bg-primary-100"} px-4 py-2 rounded cursor-pointer border font-medium`}
                             >
-                                Upload Image
+                                {
+                                    loading ? "Uploading..." : "Upload Image"
+                                }
                             </div>
                             <input disabled={!data.name} onChange={handleUploadCategoryImage} type="file" id="uploadCategoryImage" className='hidden'/>
                         </label>

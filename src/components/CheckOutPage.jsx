@@ -1,6 +1,6 @@
 import PriceInRupees from "../utils/PriceInRupees";
 import useGlobalContext from "../provider/GlobalProvider";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import AddAddress from "./AddAddress";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";

@@ -18,8 +18,9 @@ const AddFieldComponent = ({close, value, onChange, submit}) => {
                 onChange={onChange}
             />
             <button
-                className='bg-primary-200 px-4 py-2 rounded mx-auto w-fit block hover:bg-primary-100'
+                className={`${!value ? "bg-gray-300" : "bg-primary-200 hover:bg-primary-100"} px-4 py-2 rounded mx-auto w-fit block`}
                 onClick={submit}
+                disabled={!value}
             >
                 Add Field
             </button>
